@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Pong Game" />
+    <meta property="og:description" content="Play Pong right in Telegram!" />
+    <meta property="og:image" content="https://sargiotti.github.io/pong-game/logoOpenfortRed.png" />
     <title>Pong Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -25,7 +28,20 @@
     </div>
     </div>
 
-    <script src="game.js"></script>
+    <script>
+        function loadAppropriateScript() {
+            const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+            const script = document.createElement('script');
+            script.src = isPortrait ? 'game-mobile.js' : 'game.js';
+            document.body.appendChild(script);
+        }
+    
+        document.getElementById('start-button').addEventListener('click', function() {
+            document.getElementById('start-menu').style.display = 'none';
+            document.getElementById('game-container').style.display = 'flex';
+            loadAppropriateScript();
+        });
+    </script>
 </body>
 </html>
 

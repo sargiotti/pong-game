@@ -45,29 +45,6 @@ body {
     background-color: #ddd;
 }
 
-.color-squares {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.color-box {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #000;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: border-width 0.1s;
-}
-
-.color-box:hover {
-    border-width: 1px;
-}
-
-.color-box.selected {
-    border-width: 3px;
-    border-color: #fff;
-}
 
 #game-container {
     display: flex;
