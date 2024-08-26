@@ -12,8 +12,8 @@ let player1Y = canvas.height - paddleHeight;
 let player2Y = 0;
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
-let ballSpeedX = 2;
-let ballSpeedY = 1;
+let ballSpeedX = 1;
+let ballSpeedY = 2;
 let player1Score = 0;
 let player2Score = 0;
 const winningScore = 5;
@@ -187,7 +187,7 @@ function resetBall() {
   ballX = canvas.width / 2;
   ballY = canvas.height / 2;
 
-  ballSpeedX = Math.random() > 0.5 ? 1 : -1;
+  ballSpeedX = 0; // Movimiento lateral mínimo
   ballSpeedY = Math.random() > 0.5 ? 2 : -2;
 
   startTimer();
