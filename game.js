@@ -28,8 +28,6 @@ let timerActive = false;
 let timerCount = 3;
 let timerInterval = null;
 
-let ballImage = new Image();
-ballImage.src = './logoOpenFortRed.png';
 
 document.addEventListener('keydown', function(event) {
     switch(event.key) {
@@ -269,7 +267,6 @@ function openPlayerWindow() {
 
 document.getElementById('start-button')?.addEventListener('click', function() {
     if (isHost) {
-
         openPlayerWindow();
         document.getElementById('start-menu').style.display = 'none';
         document.getElementById('game-container').style.display = 'flex';

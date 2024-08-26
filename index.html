@@ -30,18 +30,32 @@
 
     <script>
         function loadAppropriateScript() {
-            const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-            const script = document.createElement('script');
-            script.src = isPortrait ? 'game-mobile.js' : 'game.js';
-            document.body.appendChild(script);
+          const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+          console.log("Is portrait mode:", isPortrait);
+          const script = document.createElement('script');
+          script.src = isPortrait ? 'game-mobile.js' : 'game.js';
+
+          script.onload = () => {
+            console.log('Script loaded successfully');
+            if (typeof gameLoop === 'function') {
+              gameLoop(); 
+            } else {
+              console.error('gameLoop function is not defined');
+            }
+          };
+          script.onerror = (error) => {
+            console.error('Failed to load script:', error);
+          };
+    
+          document.body.appendChild(script);
         }
     
         document.getElementById('start-button').addEventListener('click', function() {
-            document.getElementById('start-menu').style.display = 'none';
-            document.getElementById('game-container').style.display = 'flex';
-            loadAppropriateScript();
+          document.getElementById('start-menu').style.display = 'none';
+          document.getElementById('game-container').style.display = 'flex';
+          loadAppropriateScript();
         });
-    </script>
+      </script>
 </body>
 </html>
 
