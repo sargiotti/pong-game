@@ -12,8 +12,8 @@ let player1Y = canvas.height - paddleHeight;
 let player2Y = 0;
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
-let ballSpeedX = 1;
-let ballSpeedY = 2;
+let ballSpeedX = 0.5;
+let ballSpeedY = 1;
 let player1Score = 0;
 let player2Score = 0;
 const winningScore = 5;
@@ -64,7 +64,7 @@ function handleTouchEnd(event) {
 
 async function createAccount() {
     try {
-        const response = await fetch('https://tu-dominio/api/createaccount', {
+        const response = await fetch('https://yummy-savory-board.glitch.me/createaccount', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -86,10 +86,11 @@ async function createAccount() {
 
 async function startGame() {
     const accountCreated = await createAccount();
-    if (accountCreated) {
+    console.log("empieza el juegeo")
+    //if (accountCreated) {
         openPlayerWindow();
         gameLoop();
-    }
+    //}
 }
 
 function openPlayerWindow() {
@@ -112,8 +113,8 @@ function startTimer() {
             timerActive = false;
             updateTimerDisplay('');
             if (isHost) {
-                ballSpeedX = (Math.random() > 0.5 ? 2 : -2);
-                ballSpeedY = (Math.random() * 2 - 1);
+                ballSpeedY = (Math.random() > 0.25 ? 1 : -1);
+                ballSpeedX = (Math.random() * 1 - 0.5);
             }
         }
     }, 1000);
@@ -298,10 +299,25 @@ window.addEventListener('message', function(event) {
     }
 });
 
+if (isHost) {
+    window.addEventListener('beforeunload', function() {
+        if (playerWindow && !playerWindow.closed) {
+            playerWindow.close();
+        }
+    });
+}
+
 window.addEventListener('beforeunload', function() {
     if (playerWindow && !playerWindow.closed) {
         playerWindow.close();
     }
 });
+
+function openPlayerWindow() {
+    if (isHost) {
+        playerWindow = window.open('player2.html', 'Player2', 'width=400,height=800');
+    }
+}
+
 
 startGame();

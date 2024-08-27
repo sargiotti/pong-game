@@ -37,8 +37,8 @@
 
           script.onload = () => {
             console.log('Script loaded successfully');
-            if (typeof gameLoop === 'function') {
-              gameLoop(); 
+            if (typeof startGame === 'function') {
+              startGame(); 
             } else {
               console.error('gameLoop function is not defined');
             }

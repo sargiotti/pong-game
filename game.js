@@ -13,8 +13,8 @@ let player1Y = (canvas.height - paddleHeight) / 2;
 let player2Y = (canvas.height - paddleHeight) / 2;
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
-let ballSpeedX = 2;
-let ballSpeedY = 1;
+let ballSpeedX = 1;
+let ballSpeedY = 0.5;
 let player1Score = 0;
 let player2Score = 0;
 const winningScore = 5;
@@ -67,8 +67,8 @@ function startTimer() {
             timerActive = false;
             updateTimerDisplay('');
             if (isHost) {
-                ballSpeedX = (Math.random() > 0.5 ? 2 : -2);
-                ballSpeedY = (Math.random() * 2 - 1); 
+                ballSpeedX = (Math.random() > 0.5 ? 1 : -1);
+                ballSpeedY = (Math.random()  * 0.5 - 0.25); 
             }
         }
     }, 1000);
@@ -85,8 +85,8 @@ function updateTimerDisplay(count) {
 function gameLoop() {
     if (!timerActive) {
         if (isHost) {
-            moveBall();
-            sendBallPosition(ballX, ballY);
+          moveBall();
+          sendBallPosition(ballX, ballY);
         }
     }
     movePaddles();
@@ -259,23 +259,29 @@ if (isHost) {
     });
 }
 
+if (isHost) {
+    window.addEventListener('beforeunload', function() {
+        if (playerWindow && !playerWindow.closed) {
+            playerWindow.close();
+        }
+    });
+}
+
+window.addEventListener('beforeunload', function() {
+    if (playerWindow && !playerWindow.closed) {
+        playerWindow.close();
+    }
+});
+
 function openPlayerWindow() {
     if (isHost) {
         playerWindow = window.open('player2.html', 'Player2', 'width=800,height=400');
     }
 }
 
-document.getElementById('start-button')?.addEventListener('click', function() {
-    if (isHost) {
-        openPlayerWindow();
-        document.getElementById('start-menu').style.display = 'none';
-        document.getElementById('game-container').style.display = 'flex';
-        gameLoop();
-    }
-});
-
-if (!isHost) {
-    document.getElementById('start-menu')?.remove();
-    document.getElementById('game-container').style.display = 'flex';
+function startGame() {
+    openPlayerWindow();
     gameLoop();
 }
+
+startGame();
