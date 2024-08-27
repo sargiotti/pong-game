@@ -62,6 +62,36 @@ function handleTouchEnd(event) {
     player2RightPressed = false;
 }
 
+async function createAccount() {
+    try {
+        const response = await fetch('https://tu-dominio/api/createaccount', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al crear la cuenta');
+        }
+
+        const data = await response.json();
+        alert(`${data.message}`);
+        return true;
+    } catch (error) {
+        alert('Hubo un problema al crear tu cuenta. Por favor, intenta nuevamente más tarde.');
+        return false;
+    }
+}
+
+async function startGame() {
+    const accountCreated = await createAccount();
+    if (accountCreated) {
+        openPlayerWindow();
+        gameLoop();
+    }
+}
+
 function openPlayerWindow() {
     if (isHost) {
         playerWindow = window.open('player2.html', 'Player2', 'width=400,height=800');
@@ -273,16 +303,5 @@ window.addEventListener('beforeunload', function() {
         playerWindow.close();
     }
 });
-
-function openPlayerWindow() {
-    if (isHost) {
-        playerWindow = window.open('player2.html', 'Player2', 'width=400,height=800');
-    }
-}
-
-function startGame() {
-    openPlayerWindow();
-    gameLoop();
-}
 
 startGame();
